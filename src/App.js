@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import Unsplash, { toJson } from 'unsplash-js';
 import './App.css';
 import Temperature from './components/Temperature.jsx';
 import Time from './components/Time.jsx';
 import Weather from './components/Weather.jsx';
 import Search from './components/Search.jsx';
+import Background from './components/Background.jsx';
+import Error from './components/Error.jsx';
 
 class App extends Component {
   constructor() {
@@ -14,7 +17,9 @@ class App extends Component {
       description: {},
       timezone: 0,
       userInput: '',
-      units: 'metric'
+      units: 'metric',
+      backgroundUrl: 'https://source.unsplash.com/random',
+      hasError: false
     }
   }
 
@@ -24,8 +29,12 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.location !== this.state.location || prevState.units !== this.state.units) {
+      this.callUnsplash(this.state.description.main);
       this.callWeatherApi(this.state.location, this.state.units);
+    } else {
+
     }
+
   }
 
   callWeatherApi(location, units) {
@@ -37,7 +46,29 @@ class App extends Component {
       this.setState({ 
         weather: json.main, 
         description: json.weather[0], 
-        timezone: json.timezone })); 
+        timezone: json.timezone }))
+    .catch((e) => {
+      console.log('No');
+      this.setState(
+        {
+          hasError: true
+        }
+      )
+
+    });
+  }
+  
+  callUnsplash(query) {
+    const unsplash = new Unsplash({
+      accessKey: '3ab23bcb1ed8a2dcbe86f09fa4127e1b976918726521ca7e5ffc4c45e47f940a',
+      secret: '4c54d7372592e3ce053d033a9a5f5e18cee49f86635beaddcdc889c52b8bce6f',
+      callbackUrl: 'http://unsplash-js.herokuapp.com'
+    });
+    unsplash.photos.getRandomPhoto({ query: query })
+    .then(toJson)
+    .then(json => {
+        this.setState({backgroundUrl: json.urls.regular});
+    })
   }
 
   handleChange = (e) => {
@@ -48,20 +79,23 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({location: this.state.userInput});
+    if (this.userInput !== '') {
+      this.setState({location: this.state.userInput});
+    }
   }
 
   render() {
-    const {location, weather, description, timezone, userInput} = this.state;
-    console.log(location+' on render');
+    const {location, weather, description, timezone, userInput, backgroundUrl, hasError} = this.state;
     return (
       <div className="App">
+      <Background description={description} backgroundUrl={backgroundUrl}/>
       <h2>Weather Now</h2>
       <h3>{location}</h3>
       <Time offset={timezone}/>
       <Temperature data={weather.temp}/>
       <Weather description={description}/>
-      <Search handleSubmit={this.handleSubmit} userInput={userInput} handleChange={this.handleChange} />
+      <Search handleSubmit={this.handleSubmit} userInput={userInput} handleChange={this.handleChange}/>
+      { hasError && <Error /> }
       </div>
     );
   }
