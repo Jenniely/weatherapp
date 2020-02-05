@@ -31,10 +31,7 @@ class App extends Component {
     if (prevState.location !== this.state.location || prevState.units !== this.state.units) {
       this.callUnsplash(this.state.description.main);
       this.callWeatherApi(this.state.location, this.state.units);
-    } else {
-
-    }
-
+    } 
   }
 
   callWeatherApi(location, units) {
@@ -48,7 +45,6 @@ class App extends Component {
         description: json.weather[0], 
         timezone: json.timezone }))
     .catch((e) => {
-      console.log('No');
       this.setState(
         {
           hasError: true
