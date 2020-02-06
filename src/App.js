@@ -7,6 +7,7 @@ import Weather from './components/Weather.jsx';
 import Search from './components/Search.jsx';
 import Background from './components/Background.jsx';
 import Error from './components/Error.jsx';
+import ToggleButton from './components/ToggleButton.jsx';
 
 class App extends Component {
   constructor() {
@@ -19,7 +20,8 @@ class App extends Component {
       userInput: '',
       units: 'metric',
       backgroundUrl: 'https://source.unsplash.com/random',
-      hasError: false
+      hasError: false,
+      isToggleOn: true
     }
   }
 
@@ -80,8 +82,20 @@ class App extends Component {
     }
   }
 
+  handleToggle = () => {
+		this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
+     if (this.state.units === 'metric') {
+     this.setState({units:'imperial'})
+    };
+    if (this.state.units === 'imperial') {
+      this.setState({units: 'metric'})
+     };
+  }
+
   render() {
-    const {location, weather, description, timezone, userInput, backgroundUrl, hasError} = this.state;
+    const {location, weather, description, timezone, userInput, backgroundUrl, hasError, isToggleOn} = this.state;
     return (
       <div className="App">
       <Background description={description} backgroundUrl={backgroundUrl}/>
@@ -92,6 +106,7 @@ class App extends Component {
       <Weather description={description}/>
       <Search handleSubmit={this.handleSubmit} userInput={userInput} handleChange={this.handleChange}/>
       { hasError && <Error /> }
+      <ToggleButton isToggleOn={isToggleOn} handleToggle={this.handleToggle}/>
       </div>
     );
   }
