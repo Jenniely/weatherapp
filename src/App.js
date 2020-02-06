@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import Unsplash, { toJson } from 'unsplash-js';
-import './App.css';
-import Temperature from './components/Temperature.jsx';
-import Time from './components/Time.jsx';
-import Weather from './components/Weather.jsx';
-import Search from './components/Search.jsx';
-import Background from './components/Background.jsx';
+import Temperature from './components/Temperature/Temperature.jsx';
+import Time from './components/Time/Time.jsx';
+import Weather from './components/Weather/Weather.jsx';
+import Search from './components/Search/Search.jsx';
 import Error from './components/Error.jsx';
-import ToggleButton from './components/ToggleButton.jsx';
+import ToggleButton from './components/ToggleButton/ToggleButton.jsx';
+import './App.css';
 
 class App extends Component {
   constructor() {
@@ -19,7 +18,7 @@ class App extends Component {
       timezone: 0,
       userInput: '',
       units: 'metric',
-      backgroundUrl: 'https://source.unsplash.com/random',
+      backgroundUrl: '',
       hasError: false,
       isToggleOn: true
     }
@@ -27,6 +26,7 @@ class App extends Component {
 
  componentDidMount() {
    this.callWeatherApi(this.state.location, this.state.units);
+   this.callUnsplash('clouds');
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -62,10 +62,10 @@ class App extends Component {
       secret: '4c54d7372592e3ce053d033a9a5f5e18cee49f86635beaddcdc889c52b8bce6f',
       callbackUrl: 'http://unsplash-js.herokuapp.com'
     });
-    unsplash.photos.getRandomPhoto({ query: query })
+    unsplash.photos.getRandomPhoto({ query: query, orientation: 'landscape' })
     .then(toJson)
     .then(json => {
-        this.setState({backgroundUrl: json.urls.regular});
+        this.setState({backgroundUrl: json.urls.raw + "&w=1500&dpi=2"});
     })
   }
 
@@ -97,10 +97,8 @@ class App extends Component {
   render() {
     const {location, weather, description, timezone, userInput, backgroundUrl, hasError, isToggleOn} = this.state;
     return (
-      <div className="App">
-      <Background description={description} backgroundUrl={backgroundUrl}/>
-      <h2>Weather Now</h2>
-      <h3>{location}</h3>
+      <div className="App" style={{backgroundImage: `url(${backgroundUrl})`}}>  
+      <h2 className='cityName'>{location}</h2>
       <Time offset={timezone}/>
       <Temperature data={weather.temp}/>
       <Weather description={description}/>
