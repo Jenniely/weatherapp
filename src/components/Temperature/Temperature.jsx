@@ -1,4 +1,5 @@
 import React from 'react';
+import './Temperature.css';
 
 const Temperature = props => (
     <div className="temperature">

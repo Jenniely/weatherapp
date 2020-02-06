@@ -1,0 +1,9 @@
+.temperature {
+    color: #ffffff;
+    grid-column: 2/3;
+    grid-row: 2/3;
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    margin-top: 20%;
+    text-shadow: 1px 1px 1px rgba(150, 150, 150, 0.5);
+}
