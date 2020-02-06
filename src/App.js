@@ -4,7 +4,7 @@ import Temperature from './components/Temperature/Temperature.jsx';
 import Time from './components/Time/Time.jsx';
 import Weather from './components/Weather/Weather.jsx';
 import Search from './components/Search/Search.jsx';
-import Error from './components/Error.jsx';
+import Error from './components/Error/Error.jsx';
 import ToggleButton from './components/ToggleButton/ToggleButton.jsx';
 import './App.css';
 
