@@ -39,7 +39,7 @@
       }
 
 .search button {
-      position: relative;
+      float:right;
       border: 0;
       padding: 0;
       cursor: pointer;
@@ -70,6 +70,7 @@
       .search button {
             border: 1px solid #fff;
             margin-top: 3%;
+            float: none;
       }
 
 }
@@ -77,7 +78,9 @@
 @media only screen and (max-width: 640px) {
       .search button {
             margin-top: 6%;
+            float: none;
       }
+      
 }
 
 
