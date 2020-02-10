@@ -1,7 +1,7 @@
 .search {
     grid-column-start: 2;
     grid-row-start: 3;
-    width: 400px;
+    width: 100%;
     height: 40px;
     margin: 0 auto;
     margin-top: 25%;
@@ -13,13 +13,17 @@
 }
     
 .search input {
-      width: 211px;
-      padding: 10px 5px;
+      width: 51.5%;
+      padding: 10px 2px;
       color: #fff;
       font-size: 16px;
       border: 0;
       background: transparent;
       border-radius: 3px 0 0 3px;
+}
+
+.search label {
+      width: 25%;
 }
 
 .search input:focus  {
@@ -40,7 +44,7 @@
       padding: 0;
       cursor: pointer;
       height: 40px;
-      width: 120px;
+      width: 30%;
       color: #fff;
       background: transparent;
       border-left: 1px solid #fff;
@@ -61,3 +65,24 @@
 .search button:focus {
         outline: 0;
       }
+
+@media only screen and (max-width: 1024px) {
+      .search button {
+            border: 1px solid #fff;
+            margin-top: 3%;
+      }
+
+}
+
+@media only screen and (max-width: 640px) {
+      .search button {
+            margin-top: 6%;
+      }
+}
+
+
+@media only screen and (max-width: 455px) {
+      .search button {
+            width: 40%;
+      }
+}

@@ -1,13 +1,9 @@
 .btn {
     grid-column-start: 3;
     grid-row-start: 1;
-    margin: 8% auto;
-    position: relative;
+    margin: 5% auto;
     border: 0;
     padding: 0;
-    cursor: pointer;
-    height: 40px;
-    width: 120px;
     color: #fff;
     background: transparent;
     border: 1px solid #fff;
@@ -17,11 +13,24 @@
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 14px;
     text-shadow: 1px 1px 1px rgba(150, 150, 150, 0.5);
+    outline: 0;
 }
 .btn:hover {
 	background: #fff;
     color:#444;
+    outline: 0;
 }
 .btn:active {
     box-shadow: 0px 0px 12px 0px rgba(225, 225, 225, 1);
+    outline: 0;
+}
+
+@media only screen and (max-width: 1024px) {
+  
+}
+
+@media only screen and (max-width: 640px) {
+    .btn {
+        margin: 10% auto;
+    }
 }

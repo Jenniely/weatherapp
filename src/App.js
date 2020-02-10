@@ -29,7 +29,7 @@ class App extends Component {
    this.callUnsplash('clouds');
   }
 
-  componentDidUpdate(prevProps, prevState) {
+componentDidUpdate(prevProps, prevState) {
     if (prevState.location !== this.state.location || prevState.units !== this.state.units) {
       this.callUnsplash(this.state.description.main);
       this.callWeatherApi(this.state.location, this.state.units);
@@ -45,7 +45,8 @@ class App extends Component {
       this.setState({ 
         weather: json.main, 
         description: json.weather[0], 
-        timezone: json.timezone }))
+        timezone: json.timezone,
+        hasError: false }))
     .catch((e) => {
       this.setState(
         {
@@ -57,6 +58,7 @@ class App extends Component {
   }
   
   callUnsplash(query) {
+    const width = window.innerWidth;
     const unsplash = new Unsplash({
       accessKey: '3ab23bcb1ed8a2dcbe86f09fa4127e1b976918726521ca7e5ffc4c45e47f940a',
       secret: '4c54d7372592e3ce053d033a9a5f5e18cee49f86635beaddcdc889c52b8bce6f',
@@ -65,7 +67,7 @@ class App extends Component {
     unsplash.photos.getRandomPhoto({ query: query, orientation: 'landscape' })
     .then(toJson)
     .then(json => {
-        this.setState({backgroundUrl: json.urls.raw + "&w=1500&dpi=2"});
+        this.setState({backgroundUrl: json.urls.raw  + `&w=${width}&dpi=2`});
     })
   }
 
