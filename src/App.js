@@ -21,13 +21,11 @@ class App extends Component {
       backgroundUrl: '',
       hasError: false,
       isToggleOn: true,
-      query: 'red'
     }
   }
 
  componentDidMount() {
    this.callWeatherApi(this.state.location, this.state.units);
-   this.callUnsplash('clouds');
   }
 
 componentDidUpdate(prevProps, prevState) {
@@ -48,7 +46,6 @@ componentDidUpdate(prevProps, prevState) {
           description: json.weather[0], 
           timezone: json.timezone,
           hasError: false,
-          query: json.weather[0].main
         }, () => this.callUnsplash(this.state.description.main)
         ))
     .catch((e) => {
