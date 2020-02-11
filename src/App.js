@@ -20,7 +20,8 @@ class App extends Component {
       units: 'metric',
       backgroundUrl: '',
       hasError: false,
-      isToggleOn: true
+      isToggleOn: true,
+      query: 'red'
     }
   }
 
@@ -31,7 +32,6 @@ class App extends Component {
 
 componentDidUpdate(prevProps, prevState) {
     if (prevState.location !== this.state.location || prevState.units !== this.state.units) {
-      this.callUnsplash(this.state.description.main);
       this.callWeatherApi(this.state.location, this.state.units);
     } 
   }
@@ -42,11 +42,15 @@ componentDidUpdate(prevProps, prevState) {
     fetch(query)
     .then(response => response.json())
     .then(json =>
-      this.setState({ 
-        weather: json.main, 
-        description: json.weather[0], 
-        timezone: json.timezone,
-        hasError: false }))
+      this.setState(
+         {
+          weather: json.main, 
+          description: json.weather[0], 
+          timezone: json.timezone,
+          hasError: false,
+          query: json.weather[0].main
+        }, () => this.callUnsplash(this.state.description.main)
+        ))
     .catch((e) => {
       this.setState(
         {
